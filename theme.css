@@ -1,5 +1,18 @@
-#header{
-	border-radius:50%;
-	background-color:GREEN;
-	
+
+body{
+	padding-bottom: 1px;
+	color:#5a5a5a;
+}
+
+#intro{
+	border:2px solid  #81D4FA;
+	background-color: #81D4FA;
+	height:90%;
+	width:100%;
+}
+#info{
+	height:100%;
+	border: 1px solid grey;
+	display: center;
+
 }
