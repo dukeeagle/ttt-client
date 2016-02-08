@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+<<<<<<< HEAD
 var clients = {};
 
 app.get('/', function(req, res){
@@ -23,8 +24,11 @@ io.sockets.on('connection', function (socket){
 			}
 	}
 	})
+
 });
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
+
 });
+
