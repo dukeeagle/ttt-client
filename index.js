@@ -1,34 +1,32 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-<<<<<<< HEAD
-var clients = {};
+var people = {};
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-io.sockets.on('connection', function (socket){
-	socket.on('add-user', function(data){
-		clients[data.username] = {
-			"socket":socket.id
-		};
+socket.set("log level", 1);
+
+
+socket.on("connection", function (client) {
+
+	client.on("join", function(name){
+		people[client.id] = name;
+		client.emit("update", "You have connected to the server.");
+		socket.sockets.emit("update", name + " has joined the server.")
+		socket.sockets.emit("update-people", people);
 	});
 
-    socket.on('disconnect', function(){
-	for(var name in clients){
-			if(clients[name].socket === socket.id){
-					
-					delete clients[name];
-					break;
-			}
-	}
-	})
+	client.on("send", function(msg){
+		socket.sockets.emit("chat", people[client.id], msg);
+	});
 
-});
-
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-
+	client.on("disconnect", function(){
+		socket.sockets.emit("update", people[client.id] + " has left the server.");
+		delete people[client.id];
+		socket.sockets.emit("update-people", people);
+	});
 });
 
