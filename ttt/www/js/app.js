@@ -4,6 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic'])
+var app=angular.module('ionic-socketio-ttt', ['ionic', 'btford.socket-io'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,3 +23,26 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+
+.config(function($stateProvider, $urlRouterProvider){
+  $urlRouterProvider.otherwise("/");
+  $stateProvider
+    .state('login', {
+      url: '/',
+      templateUrl: "templates/login.html",
+      controller:"LoginController"
+    })
+
+    .state('home', {
+      url: '/home',
+      templateUrl: "templates/room-list.html",
+      controller:"RoomsController"
+    })
+
+    .state('room',{
+      url:'/home/rooms/:id',
+      templateUrl: "templates/single-room.html",
+      controller:'SingleRoomController'
+    });
+
+});
