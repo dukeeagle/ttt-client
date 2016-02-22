@@ -1,1 +1,74 @@
-/* Empty. Add your own CSS if you like */
+/*This is all temporary, I swear*/
+html{
+	font-family:"Roboto", arial;
+}
+
+#title{
+	color:#9C27B0;
+}
+
+#main-content{
+	bottom: 100px;
+	padding: 10px;
+}
+
+#room-list{
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+}
+
+.message-date{
+	font-size: 10px;
+	color: gray;
+}
+
+
+#roomNameToCreate{
+	width: 80%;
+	height: 20px;
+	margin-top: 7px;
+	color: black;
+	resize: none;
+}
+
+#messageToSend{
+	width:80%;
+}
+
+.send-button{
+	width: 18%;
+	text-align: center;
+	padding-top: -5px;
+	font-size:15px;
+}
+
+.room-item{
+	text-align: center;
+}
+
+#roomtitle{
+	background-color: gray;
+	text-align: center;
+	width: 100%;
+	margin-top:-10px;
+	margin-left:-10px;
+}
+
+/*#footer-bar-list{
+	height:50px;
+}*/
+
+#footer-bar-room{
+
+}
+
+#footer-bar-list{
+	margin-top:5px;
+	padding-top:-5px;
+}
+
+#send-room{
+	margin-top:10px;
+	font-size: 10px;
+}
