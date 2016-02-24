@@ -27,20 +27,20 @@ var app=angular.module('ionic-socketio-ttt', ['ionic', 'btford.socket-io'])
 .config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise("/");
   $stateProvider
-    .state('login', {
-      url: '/',
-      templateUrl: "templates/login.html",
-      controller:"LoginController"
-    })
-
     .state('home', {
-      url: '/home',
+      url: '/',
       templateUrl: "templates/room-list.html",
       controller:"RoomsController"
     })
 
+    /*.state('home', {
+      url: '/home',
+      templateUrl: "templates/room-list.html",
+      controller:"RoomsController"
+    })*/
+
     .state('room',{
-      url:'/home/rooms/:id',
+      url:'/rooms/:id',
       templateUrl: "templates/single-room.html",
       controller:'SingleRoomController'
     });

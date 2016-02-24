@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="starter">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
@@ -7,6 +7,8 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -20,6 +22,8 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
 
       <!--socket io client library-->
     <script src="http://chat.socket.io/socket.io/socket.io.js"></script>
@@ -28,25 +32,13 @@
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="lib/angular-socket-io/socket.js"></script>
 
-    <!-- your controllers' js -->
-    <script src="js/controllers/ChatController.js"></script>
-    <script src="js/controllers/LoginController.js"></script>
-
-    <!--your services' js -->
-    <script src="js/services/socket.js"></script>
-
     <!--your directives' js -->
     <script src="js/directives.js"></script>
 
   </head>
   <body ng-app="ionic-socketio-ttt">
-    <ion-nav-view></ion-nav-view>
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">TTT</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
-    </ion-pane>
+    <ion-nav-view>
+
+    </ion-nav-view>
   </body>
 </html>

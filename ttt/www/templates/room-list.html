@@ -1,0 +1,17 @@
+<ion-header-bar class="bar-stable">
+    <h1 class="title">TTT</h1>
+  </ion-header-bar>
+  <ion-content id="main-content">
+    <ionic-list id="message-list">
+      <a href="#/rooms/{{room.id}}" ng-repeat="room in rooms">
+        <ion-item class="room-item">
+          <strong>{{room.name}}</strong> 
+          <span class="message-date"> - {{room.timestamp | date: short}}</span> 
+        </ion-item>
+      </a>
+    </ionic-list>
+  </ion-content>
+  <ion-footer-bar id="footer-bar-list" align-title="left" class="bar-calm" >
+    <textarea id="roomNameToCreate" ng-model="roomNameToCreate"></textarea>
+    <div class="send-button" id="send-room" ng-click="createRoom()">Create Room</div>
+</ion-footer-bar>
