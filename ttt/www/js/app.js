@@ -27,6 +27,7 @@ var app=angular.module('ionic-socketio-ttt', ['ionic', 'btford.socket-io'])
 .config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise("/");
   $stateProvider
+<<<<<<< HEAD
     .state('home', {
       url: '/',
       templateUrl: "templates/room-list.html",
@@ -35,6 +36,11 @@ var app=angular.module('ionic-socketio-ttt', ['ionic', 'btford.socket-io'])
 
     /*.state('home', {
       url: '/home',
+=======
+
+    .state('home', {
+      url: '/',
+>>>>>>> 7506a8228a191b02da9682fe536f3e1e11d31c04
       templateUrl: "templates/room-list.html",
       controller:"RoomsController"
     })*/

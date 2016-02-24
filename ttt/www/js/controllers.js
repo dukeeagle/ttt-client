@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*.controller("LoginController", function($state, $sanitize){
 	var self = this;
 	self.join = function(){
@@ -41,3 +42,4 @@
     });
     document.getElementById("roomNameToCreate").value = "";
 })
+
