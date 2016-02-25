@@ -25,14 +25,15 @@ var app=angular.module('ionic-socketio-ttt', ['ionic', 'btford.socket-io'])
 })
 
 .config(function($stateProvider, $urlRouterProvider){
+  
   $urlRouterProvider.otherwise("/");
   $stateProvider
-<<<<<<< HEAD
+
     .state('home', {
       url: '/',
       templateUrl: "templates/room-list.html",
       controller:"RoomsController"
-    })
+    });
 
     /*.state('home', {
       url: '/home',
@@ -45,10 +46,10 @@ var app=angular.module('ionic-socketio-ttt', ['ionic', 'btford.socket-io'])
       controller:"RoomsController"
     })*/
 
-    .state('room',{
+    /*.state('room',{
       url:'/rooms/:id',
       templateUrl: "templates/single-room.html",
       controller:'SingleRoomController'
-    });
+    });*/
 
 });

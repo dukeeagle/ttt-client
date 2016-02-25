@@ -2,7 +2,7 @@ angular.module('starter')
 
 .factory('UserService', function UserService(){
 	var user = {
-		username: "";
+		username: ""
 	}
 	return{
 		user:user
