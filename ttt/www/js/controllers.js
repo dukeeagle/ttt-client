@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('RoomsController', function($scope, $http, UserService){
+.controller('RoomsController', function($scope, $http, UserService, $ionicModal){
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
       $http.post("https://polar-caverns-57560.herokuapp.com/users", UserService.user).then(function(response){ 
@@ -32,6 +32,36 @@ angular.module('starter')
     
     document.getElementById("roomNameToCreate").value = "";
   }
+
+  $ionicModal.fromTemplateUrl('templates/room-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
+
+    $scope.openModal = function() {
+        $scope.modal.show();
+    };
+
+    $scope.closeModal = function() {
+        $scope.modal.hide();
+    };
+
+    $scope.$on('$destroy', function(){
+        $scope.modal.remove();
+    });
+
+    //Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+        //action
+    });
+
+    //Execute action on modal removal
+    $scope.$on('modal.removed', function() {
+        //action
+    });
+
 })
 
 .controller('SingleRoomController', function($scope, $http, $stateParams, UserService){
@@ -60,18 +90,18 @@ angular.module('starter')
     }
 })
 
- .controller('RoomCreator', function($scope, $http, $stateParams, UserService){
+ .controller('RoomCreator', function($scope, $http, $stateParams, UserService, $ionicModal){
     $scope.createRoom = createRoom;
       function createRoom(){
         var room = {
           timestamp: new Date(),
           name: $scope.roomNameToCreate,
           username: UserService.username
-      };
     };
- })
+  };
+ });
 
- .controller('RoomModal', function($scope, $ionicModal) {
+ /*.controller('RoomModal', function($scope, $ionicModal) {
 
     $ionicModal.fromTemplateUrl('templates/room-modal.html', {
       scope: $scope,
@@ -100,5 +130,5 @@ angular.module('starter')
     //Execute action on modal removal
     $scope.$on('modal.removed', function() {
         //action
-    });
- });
+    });*/
+ 

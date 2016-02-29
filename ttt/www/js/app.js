@@ -54,7 +54,7 @@ angular.module('starter', ['ionic'])
     .state('room-modal',{
       url:'/room-modal',
       templateUrl: "templates/room-modal",
-      controller: 'RoomModal'
+      controller: 'RoomCreator'
     });
 
  

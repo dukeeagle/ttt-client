@@ -1,9 +1,16 @@
 <ion-modal-view>
 	<ion-header-bar>
 		<h1 class = "title">Create a Room</h1>
+		<button class = "button button-clear button-primary" ng-click = "closeModal()">Close</button>
 	</ion-header-bar>
 
-	<ion-content>
-		<button class = "button icon icon-left ion-ios-close-outline" ng-click = "closeModal()">Create</button>
+	<ion-content class="padding">
+		<div class="list">
+			<label class="item item-input">
+					<span class="input-label">Room Name</span>
+					
+			</label>
+		</div>
+
 	</ion-content>
 </ion-modal-view>
