@@ -51,10 +51,10 @@ angular.module('starter', ['ionic'])
       controller:'SingleRoomController'
      })
       
-    .state('room-create',{
-      url:'/room-create',
-      templateUrl: "templates/room-create",
-      controller: 'RoomCreator'
+    .state('room-modal',{
+      url:'/room-modal',
+      templateUrl: "templates/room-modal",
+      controller: 'RoomModal'
     });
 
  
