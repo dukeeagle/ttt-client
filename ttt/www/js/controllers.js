@@ -62,16 +62,28 @@ angular.module('starter')
         //action
     });
 
-    $scope.submitRoom = function() {
-        $scope.closeModal();
-        $scope.createRoom();
-    };
-
 })
 
 .controller('SingleRoomController', function($scope, $http, $stateParams, UserService){
   getRoom();
   $scope.sendMessage = sendMessage;
+  $scope.$on('$ionicView.afterEnter', function() {
+      var testMessage = {
+            timestamp: new Date(),
+            message: "has joined the game!",
+            username: UserService.user.username
+      };
+      $http.post("https://polar-caverns-57560.herokuapp.com/rooms/" + $stateParams.id + "/messages", testMessage).then(function(response) {
+          $scope.messages = response.data.messages;
+          console.log($scope.messages);
+        });
+      document.getElementById("messageToSend").value = "";
+      $scope.messageToSend = "";
+  });
+
+  /*function onEnter() {
+
+  }*/
 
   function getRoom() {
     $http.get("https://polar-caverns-57560.herokuapp.com/rooms/" + $stateParams.id).then(function(response){ 
@@ -86,6 +98,7 @@ angular.module('starter')
           message: $scope.messageToSend,
           username: UserService.user.username
         };
+        
         $http.post("https://polar-caverns-57560.herokuapp.com/rooms/" + $stateParams.id + "/messages", message).then(function(response) {
           $scope.messages = response.data.messages;
           console.log($scope.messages);
@@ -95,7 +108,7 @@ angular.module('starter')
     }
 })
 
- .controller('RoomCreator', function($scope, $http, $stateParams, UserService){
+ .controller('RoomCreator', function($scope, $http, $stateParams, UserService, $ionicModal){
     $scope.createRoom = createRoom;
       function createRoom(){
         var room = {
@@ -104,4 +117,37 @@ angular.module('starter')
           username: UserService.username
     };
   };
- });
+});
+ 
+
+ /*.controller('RoomModal', function($scope, $ionicModal) {
+
+    $ionicModal.fromTemplateUrl('templates/room-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
+
+    $scope.openModal = function() {
+        $scope.modal.show();
+    };
+
+    $scope.closeModal = function() {
+        $scope.modal.hide();
+    };
+
+    $scope.$on('$destroy', function(){
+        $scope.modal.remove();
+    });
+
+    //Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+        //action
+    });
+
+    //Execute action on modal removal
+    $scope.$on('modal.removed', function() {
+        //action
+    });*/
+ 

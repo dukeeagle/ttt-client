@@ -5,7 +5,7 @@
          <div id="roomtitle"><h1>{{room.name}}</h1></div>
             <div id="message-list">
                <p ng-repeat="message in messages">
-                  <strong>{{message.username}}</strong> : {{message.message}}
+                  <strong>{{message.username}}</strong> {{message.message}}
                   <span class="message-date"> - {{message.timestamp | date: short}}</span>
                </p> 
             </div>
