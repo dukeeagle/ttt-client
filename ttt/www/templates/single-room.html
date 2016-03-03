@@ -1,12 +1,19 @@
 <ion-header-bar class="bar-stable">
-    <h1 class="title">TTT</h1>
+    <h1 class="title"><strong>TTT</strong></h1>
   </ion-header-bar>
   <ion-content id="main-content" scroll="false">
          <div id="roomtitle"><h1>{{room.name}}</h1></div>
+          <div class="list card">
+            <div class="item item-divider">
+              Users in Room:
+            </div>
+            <div class="item item-text-wrap">
+              Some dude!
+            </div>
+          </div>
             <div id="message-list">
                <p ng-repeat="message in messages">
                   <strong>{{message.username}}</strong> {{message.message}}
-                  <span class="message-date"> - {{message.timestamp | date: short}}</span>
                </p> 
             </div>
   </ion-content>

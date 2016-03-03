@@ -1,9 +1,9 @@
 
 /*This is all temporary, I swear*/
 
-html{
+/*html{
 	font-family:"Roboto", arial;
-}
+}*/
 
 #title{
 
@@ -45,7 +45,6 @@ html{
 .send-button{
 	width: 18%;
 	text-align: center;
-	padding-top: -5px;
 	font-size:15px;
 }
 
@@ -70,12 +69,18 @@ html{
 }
 
 #footer-bar-list{
-	margin-top:5px;
-	padding-top:-5px;
+
 }
 
 #send-room{
-	margin-top:10px;
+
 	font-size: 10px;
 }
 
+.full-width{
+	width:100%;
+}
+
+#modal-button{
+	margin-top:1px;
+}

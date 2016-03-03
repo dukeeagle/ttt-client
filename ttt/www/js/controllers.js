@@ -3,7 +3,7 @@ angular.module('starter')
 .controller('RoomsController', function($scope, $http, UserService, $ionicModal){
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
-      $http.post("https://polar-caverns-57560.herokuapp.com/users", UserService.user).then(function(response){ 
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
         UserService.user = response.data;
         getRooms();
     });
@@ -14,7 +14,7 @@ angular.module('starter')
   $scope.createRoom = createRoom;
 
   function getRooms() {
-    $http.get("https://polar-caverns-57560.herokuapp.com/rooms").then(function(response){ 
+    $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms").then(function(response){ 
       $scope.rooms = response.data;
     });
   }
@@ -25,8 +25,9 @@ angular.module('starter')
         name: $scope.roomNameToCreate,
         username: UserService.username,
         messages: []
+        //players: []
       };
-      $http.post("https://polar-caverns-57560.herokuapp.com/rooms", room).then(function(response) {
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms", room).then(function(response) {
         $scope.rooms = response.data;
       });
     
@@ -62,6 +63,11 @@ angular.module('starter')
         //action
     });
 
+    $scope.submitRoom = function() {
+        $scope.closeModal();
+        $scope.createRoom();
+    }
+
 })
 
 .controller('SingleRoomController', function($scope, $http, $stateParams, UserService){
@@ -73,7 +79,7 @@ angular.module('starter')
             message: "has joined the game!",
             username: UserService.user.username
       };
-      $http.post("https://polar-caverns-57560.herokuapp.com/rooms/" + $stateParams.id + "/messages", testMessage).then(function(response) {
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", testMessage).then(function(response) {
           $scope.messages = response.data.messages;
           console.log($scope.messages);
         });
@@ -81,12 +87,22 @@ angular.module('starter')
       $scope.messageToSend = "";
   });
 
-  /*function onEnter() {
-
+  /*function sendPlayerMessage() {
+    var playerMessage {
+        timestamp: new Date(),
+        message: UserService.user.username,
+        username: UserService.user.username
+    };
+    $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", playerMessage).then(function(response) {
+          $scope.messages = response.data.messages;
+          console.log($scope.messages);
+        });
+      document.getElementById("messageToSend").value = "";
+      $scope.messageToSend = "";
   }*/
 
   function getRoom() {
-    $http.get("https://polar-caverns-57560.herokuapp.com/rooms/" + $stateParams.id).then(function(response){ 
+    $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id).then(function(response){ 
       $scope.room = response.data;
       $scope.messages = response.data.messages;
     });
@@ -99,7 +115,7 @@ angular.module('starter')
           username: UserService.user.username
         };
         
-        $http.post("https://polar-caverns-57560.herokuapp.com/rooms/" + $stateParams.id + "/messages", message).then(function(response) {
+        $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", message).then(function(response) {
           $scope.messages = response.data.messages;
           console.log($scope.messages);
       });

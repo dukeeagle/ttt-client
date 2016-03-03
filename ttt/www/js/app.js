@@ -34,17 +34,6 @@ angular.module('starter', ['ionic'])
       controller:"RoomsController"
     })
 
-    /*.state('home', {
-      url: '/home',
-=======
-
-    .state('home', {
-      url: '/',
->>>>>>> 7506a8228a191b02da9682fe536f3e1e11d31c04
-      templateUrl: "templates/room-list.html",
-      controller:"RoomsController"
-    })*/
-
     .state('room',{
       url:'/rooms/:id',
       templateUrl: "templates/single-room.html",
