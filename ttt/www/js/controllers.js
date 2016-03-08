@@ -1,5 +1,6 @@
 angular.module('starter')
-
+//Akademia Heroku Server: https://polar-caverns-57560.herokuapp.com/
+//TTT Heroku Server: https://fathomless-brushlands-33586.herokuapp.com/
 .controller('RoomsController', function($scope, $http, UserService, $ionicModal){
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
@@ -24,8 +25,8 @@ angular.module('starter')
         timestamp: new Date(),
         name: $scope.roomNameToCreate,
         username: UserService.username,
-        messages: []
-        //players: []
+        messages: [],
+        players: []
       };
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms", room).then(function(response) {
         $scope.rooms = response.data;
@@ -70,7 +71,7 @@ angular.module('starter')
 
 })
 
-.controller('SingleRoomController', function($scope, $http, $stateParams, UserService){
+.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory){
   getRoom();
   $scope.sendMessage = sendMessage;
   $scope.$on('$ionicView.afterEnter', function() {
@@ -85,26 +86,29 @@ angular.module('starter')
         });
       document.getElementById("messageToSend").value = "";
       $scope.messageToSend = "";
-  });
 
-  /*function sendPlayerMessage() {
-    var playerMessage {
-        timestamp: new Date(),
-        message: UserService.user.username,
-        username: UserService.user.username
-    };
-    $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", playerMessage).then(function(response) {
-          $scope.messages = response.data.messages;
-          console.log($scope.messages);
-        });
-      document.getElementById("messageToSend").value = "";
-      $scope.messageToSend = "";
-  }*/
+      var enterPlayer = {
+          timestamp: new Date(),
+          player: UserService.user.username
+      };
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", enterPlayer).then(function(resposne) {
+          $scope.players = response.data.players;
+          console.log($scope.players);
+      });
+  });
+  $scope.myGoBack = function() {
+      $ionicHistory.goBack();
+  };
+   /*$scope.$on('$ionicView.afterLeave', function(){
+
+   });*/
+
 
   function getRoom() {
     $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id).then(function(response){ 
       $scope.room = response.data;
       $scope.messages = response.data.messages;
+      $scope.players = response.data.players;
     });
     setTimeout(getRoom, 1000);
   }
@@ -134,36 +138,4 @@ angular.module('starter')
     };
   };
 });
- 
-
- /*.controller('RoomModal', function($scope, $ionicModal) {
-
-    $ionicModal.fromTemplateUrl('templates/room-modal.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal = modal;
-    });
-
-    $scope.openModal = function() {
-        $scope.modal.show();
-    };
-
-    $scope.closeModal = function() {
-        $scope.modal.hide();
-    };
-
-    $scope.$on('$destroy', function(){
-        $scope.modal.remove();
-    });
-
-    //Execute action on hide modal
-    $scope.$on('modal.hidden', function() {
-        //action
-    });
-
-    //Execute action on modal removal
-    $scope.$on('modal.removed', function() {
-        //action
-    });*/
  
