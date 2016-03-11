@@ -7,7 +7,7 @@ angular.module('starter')
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
         UserService.user = response.data;
         getRooms();
-    });
+      });
     }
 
 
@@ -95,10 +95,15 @@ angular.module('starter')
           $scope.players = response.data.players;
           console.log($scope.players);
       });
+      var newPlayer = UserService.user.username;
+      /*socket.emit('player enter', newPlayer);*/
   });
   $scope.myGoBack = function() {
       $ionicHistory.goBack();
   };
+  /*socket.on('new player', function(newPlayer){
+      $scope.room.players.push(newPlayer);
+  });*/
    /*$scope.$on('$ionicView.afterLeave', function(){
 
    });*/
