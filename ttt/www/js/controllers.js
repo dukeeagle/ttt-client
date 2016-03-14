@@ -71,7 +71,7 @@ angular.module('starter')
 
 })
 
-.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory){
+.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket){
   getRoom();
   $scope.sendMessage = sendMessage;
   $scope.$on('$ionicView.afterEnter', function() {
@@ -96,14 +96,14 @@ angular.module('starter')
           console.log($scope.players);
       });
       var newPlayer = UserService.user.username;
-      /*socket.emit('player enter', newPlayer);*/
+      socket.emit('player enter', newPlayer);
   });
   $scope.myGoBack = function() {
       $ionicHistory.goBack();
   };
-  /*socket.on('new player', function(newPlayer){
+  socket.on('new player', function(newPlayer){
       $scope.room.players.push(newPlayer);
-  });*/
+  });
    /*$scope.$on('$ionicView.afterLeave', function(){
 
    });*/
