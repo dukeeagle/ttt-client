@@ -11,7 +11,7 @@ angular.module('starter')
 
 	
 .factory('socket', ['$rootScope', function ($rootScope) {
-  var socket = io.connect();
+  var socket = io.connect('https://fathomless-brushlands-33586.herokuapp.com');
   return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {  
@@ -31,5 +31,6 @@ angular.module('starter')
         });
       })
     }
+    //socketFactory({ioSocket: io('https://fathomless-brushlands-33586.herokuapp.com/')});
   };
 }]);

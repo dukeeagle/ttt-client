@@ -23,8 +23,9 @@ angular.module('starter')
   function createRoom() {
       var room = {
         timestamp: new Date(),
-        name: $scope.roomNameToCreate,
-        username: UserService.username,
+        //name: $scope.roomNameToCreate,
+        name: UserService.user.username + "'s Room",
+        username: UserService.user.username,
         messages: [],
         players: []
       };
@@ -88,14 +89,13 @@ angular.module('starter')
       $scope.messageToSend = "";
 
       var enterPlayer = {
-          timestamp: new Date(),
-          player: UserService.user.username
+          username: UserService.user.username
       };
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", enterPlayer).then(function(resposne) {
           $scope.players = response.data.players;
           console.log($scope.players);
       });
-      var newPlayer = UserService.user.username;
+      var newPlayer = "Hello!";
       socket.emit('player enter', newPlayer);
   });
   $scope.myGoBack = function() {
@@ -104,9 +104,23 @@ angular.module('starter')
   socket.on('new player', function(newPlayer){
       $scope.room.players.push(newPlayer);
   });
-   /*$scope.$on('$ionicView.afterLeave', function(){
+  $scope.$on('$ionicView.afterLeave', function() {
+      var finalMessage = {
+          timestamp: new Date(),
+          message: "has left the game",
+          username: UserService.user.username
+      };
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", finalMessage).then(function(response) {
+          $scope.messages = response.data.messages;
+          console.log($scope.messages);
+          playerList = $scope.players;
+          socket.emit('player left', playerList);
+        });
+      document.getElementById("messageToSend").value = "";
+      $scope.messageToSend = "";
 
-   });*/
+      //$http.delete("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + stateParams.id + "/players", )
+   });
 
 
   function getRoom() {
@@ -138,8 +152,9 @@ angular.module('starter')
       function createRoom(){
         var room = {
           timestamp: new Date(),
-          name: $scope.roomNameToCreate,
-          username: UserService.username
+          //name: $scope.roomNameToCreate,
+          name: UserService.user.username + "'s Room",
+          username: UserService.user.username
     };
   };
 });
