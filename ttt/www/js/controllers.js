@@ -1,11 +1,12 @@
 angular.module('starter')
 //Akademia Heroku Server: https://polar-caverns-57560.herokuapp.com/
 //TTT Heroku Server: https://fathomless-brushlands-33586.herokuapp.com/
-.controller('RoomsController', function($scope, $http, UserService, $ionicModal){
+.controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket){
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
         UserService.user = response.data;
+        socket.emit('adduser', UserService.user);
         getRooms();
       });
     }
@@ -95,8 +96,8 @@ angular.module('starter')
           $scope.players = response.data.players;
           console.log($scope.players);
       });
-      var newPlayer = "Hello!";
-      socket.emit('player enter', newPlayer);
+      var thisRoom = $scope.room.name;
+      socket.emit('enterroom', thisRoom);
   });
   $scope.myGoBack = function() {
       $ionicHistory.goBack();
@@ -119,7 +120,11 @@ angular.module('starter')
       document.getElementById("messageToSend").value = "";
       $scope.messageToSend = "";
 
-      //$http.delete("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + stateParams.id + "/players", )
+
+      $http.delete("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + stateParams.id + "/players", UserService.user.username).then(function(response) {
+          $scope.players = response.data.players;
+          console.log($scope.players);
+      });
    });
 
 
