@@ -6,7 +6,8 @@ angular.module('starter')
       UserService.user.username = prompt("Please enter your username", "");
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
         UserService.user = response.data;
-        socket.emit('adduser', UserService.user);
+        var username = UserService.user;
+        socket.emit('addUser', username);
         getRooms();
       });
     }
@@ -35,6 +36,8 @@ angular.module('starter')
       });
     
     document.getElementById("roomNameToCreate").value = "";
+    var newRoom = $scope.room;
+    socket.emit('newRoom', newRoom);
   }
 
   $ionicModal.fromTemplateUrl('templates/room-modal.html', {
@@ -96,8 +99,8 @@ angular.module('starter')
           $scope.players = response.data.players;
           console.log($scope.players);
       });
-      var thisRoom = $scope.room.name;
-      socket.emit('enterroom', thisRoom);
+      var thisRoom = $scope.room;
+      socket.emit('enterRoom', thisRoom);
   });
   $scope.myGoBack = function() {
       $ionicHistory.goBack();
@@ -120,11 +123,12 @@ angular.module('starter')
       document.getElementById("messageToSend").value = "";
       $scope.messageToSend = "";
 
-
-      $http.delete("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + stateParams.id + "/players", UserService.user.username).then(function(response) {
+      var leftRoom = $scope.room;
+      socket.emit('leaveRoom', leftRoom);
+      /*$http.delete("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + stateParams.id + "/players", UserService.user.username).then(function(response) {
           $scope.players = response.data.players;
           console.log($scope.players);
-      });
+      });*/
    });
 
 
