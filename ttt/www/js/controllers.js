@@ -77,7 +77,7 @@ angular.module('starter')
 
 })
 
-.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket){
+.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket, $ionicPopup){
   getRoom();
   $scope.sendMessage = sendMessage;
   $scope.$on('$ionicView.afterEnter', function() {
@@ -96,13 +96,12 @@ angular.module('starter')
       var enterPlayer = {
           username: UserService.user.username
       };
-      var remove = 0;
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", enterPlayer).then(function(response) {
           $scope.players = response.data.players;
           console.log($scope.players);
       });
       thisRoom = $scope.room;
-      socket.emit('enterRoom', thisRoom);
+      socket.emit('enterRoom', thisRoom, UserService.user.username);
   });
   $scope.myGoBack = function() {
       $ionicHistory.goBack();
@@ -128,7 +127,7 @@ angular.module('starter')
       var leavePlayer = {
           username: UserService.user.username
       };
-      $http.put("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", leavePlayer).then(function(resposne) {
+      $http.put("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", leavePlayer).then(function(response) {
           $scope.players = response.data.players;
           console.log($scope.players);
       });
@@ -140,7 +139,50 @@ angular.module('starter')
           console.log($scope.players);
       });*/
    });
+  socket.on('traitor', function(){
+      showTraitor();
+  });
+  socket.on('innocent', function(){
+      showInnocent();
+  });
 
+  function startGame(){
+      /*var gameRoom = $scope.room;
+      socket.emit('gameStart', gameRoom);*/
+
+      /*var gameMessage = {
+          timestamp: new Date(),
+          message: "has started the game! Prepare for destruction and deception!",
+          username: UserService.user.username
+      };
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", gameMessage).then(function(response) {
+          $scope.messages = response.data.messages;
+          console.log($scope.messages);
+        });
+      document.getElementById("messageToSend").value = "";
+      $scope.messageToSend = "";*/
+  };
+
+  $scope.showTraitor = function(){
+      
+      var alertPopup = $ionicPopup.alert({
+          title: 'You are the TRAITOR!',
+          template: 'Assassinate everyone in sight!',
+          okType: 'button-royal'
+      });
+
+      alertPopup.then(function(res){
+          console.log('confirmed');
+      });
+  };
+
+  $scope.showInnocent = function(){
+      var alertPopup = $ionicPopup.alert({
+          title: 'You are INNOCENT.',
+          template: 'Eliminate the traitor before it\'s too late!',
+          okType: 'button-royal'
+      });
+  };
 
   function getRoom() {
     $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id).then(function(response){ 
