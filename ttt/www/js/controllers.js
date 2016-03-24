@@ -1,12 +1,11 @@
 angular.module('starter')
-//Akademia Heroku Server: https://polar-caverns-57560.herokuapp.com/
 //TTT Heroku Server: https://fathomless-brushlands-33586.herokuapp.com/
 .controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket){
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
         UserService.user = response.data;
-        var username = UserService.user;
+        var username = UserService.user.username;
         socket.emit('addUser', username);
         getRooms();
       });
@@ -20,6 +19,7 @@ angular.module('starter')
     $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms").then(function(response){ 
       $scope.rooms = response.data;
     });
+    setTimeout(getRooms, 1500);
   }
 
   function createRoom() {
@@ -37,8 +37,6 @@ angular.module('starter')
       });
     
     document.getElementById("roomNameToCreate").value = "";
-    /*createdRoom = $scope.room.name;
-    socket.emit('newRoom', createdRoom);*/
   }
 
   $ionicModal.fromTemplateUrl('templates/room-modal.html', {
@@ -78,6 +76,15 @@ angular.module('starter')
 })
 
 .controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket, $ionicPopup){
+    if(!UserService.user.username){ 
+      UserService.user.username = prompt("Please enter your username", "");
+      $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
+        UserService.user = response.data;
+        var username = UserService.user.username;
+        socket.emit('addUser', username);
+      });
+    }
+
   getRoom();
   $scope.sendMessage = sendMessage;
   $scope.$on('$ionicView.afterEnter', function() {
@@ -134,33 +141,20 @@ angular.module('starter')
 
       var leftRoom = $scope.room;
       socket.emit('leaveRoom', leftRoom);
-      /*$http.delete("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + stateParams.id + "/players", UserService.user.username).then(function(response) {
-          $scope.players = response.data.players;
-          console.log($scope.players);
-      });*/
+
    });
   socket.on('traitor', function(){
-      showTraitor();
+      $scope.showTraitor();
+      console.log('The traitor has been determined!');
   });
   socket.on('innocent', function(){
-      showInnocent();
+      $scope.showInnocent();
   });
 
-  function startGame(){
-      /*var gameRoom = $scope.room;
-      socket.emit('gameStart', gameRoom);*/
+  $scope.startGame = function(){
+      var room = $scope.room;
+      socket.emit('gameStart', room);
 
-      /*var gameMessage = {
-          timestamp: new Date(),
-          message: "has started the game! Prepare for destruction and deception!",
-          username: UserService.user.username
-      };
-      $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", gameMessage).then(function(response) {
-          $scope.messages = response.data.messages;
-          console.log($scope.messages);
-        });
-      document.getElementById("messageToSend").value = "";
-      $scope.messageToSend = "";*/
   };
 
   $scope.showTraitor = function(){
@@ -214,7 +208,7 @@ angular.module('starter')
         var room = {
           timestamp: new Date(),
           //name: $scope.roomNameToCreate,
-          name: UserService.user.username + "'s Room",
+          name: UserService.user.username + "'s Room" + $scope.roomNameToCreate,
           username: UserService.user.username
     };
   };

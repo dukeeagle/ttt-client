@@ -1,15 +1,15 @@
-<ion-header-bar class="bar-stable">
-    <h1 class="title"><strong>TTT</strong></h1>
+<ion-header-bar class="bar-royal">
+    <h1 id="rooms-title" class="title"><strong>TTT</strong></h1>
   </ion-header-bar>
   <ion-content id="main-content">
-    <ionic-list id="message-list">
-      <a href="#/rooms/{{room.id}}" ng-repeat="room in rooms">
-        <ion-item class="room-item">
+    <ion-scroll direction="y">
+    <ion-list id="message-list">
+        <ion-item class="room-item" ng-repeat="room in rooms" href="#/rooms/{{room.id}}">
           <strong>{{room.name}}</strong> 
           <span class="message-date"> - {{room.timestamp | date: short}}</span> 
         </ion-item>
-      </a>
     </ionic-list>
+  </ion-scroll>
   </ion-content>
   <ion-footer-bar id="footer-bar-list" class="bar-royal" >
     <button id="modal-button" class = "button button-block" ng-click="openModal()">Create a Room</button>

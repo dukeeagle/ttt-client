@@ -1,6 +1,4 @@
 
-/*This is all temporary, I swear*/
-
 html{
 	font-family:"Ionicons", arial;
 }
@@ -40,12 +38,15 @@ html{
 
 #messageToSend{
 	width:80%;
+	margin-top:40px;
+
 }
 
 #send-button{
 	width: 18%;
 	text-align: center;
 	font-size:15px;
+	margin-top:50px;
 }
 
 .room-item{
@@ -55,23 +56,12 @@ html{
 #roomtitle{
 	background-color: #8a6de9;
 	color: white;
-	text-align: center;
+	
 	width: 100%;
 	margin-top:-10px;
 	margin-left:-10px;
 }
 
-/*#footer-bar-list{
-	height:50px;
-}*/
-
-#footer-bar-room{
-
-}
-
-#footer-bar-list{
-
-}
 
 #send-room{
 
@@ -87,6 +77,24 @@ html{
 }
 
 #start-game{
-	margin-top:-25px;
+	width:75%;
+	margin-top:-15px;
+	margin-bottom:1px;
+	margin-left:-3px;
+	margin-right:43px;
 	padding-top:-2px;
+}
+
+#subheader{
+	height:4.5%;
+	padding: 5px;
+	text-align: center;
+}
+
+#nav-title{
+	text-align:center;
+}
+
+#rooms-title{
+	text-align:center;
 }

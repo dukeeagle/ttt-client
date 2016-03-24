@@ -38,13 +38,13 @@ angular.module('starter', ['ionic', 'btford.socket-io'])
       url:'/rooms/:id',
       templateUrl: "templates/single-room.html",
       controller:'SingleRoomController'
-     })
+     });
       
-    .state('room-modal',{
+    /*.state('room-modal',{
       url:'/room-modal',
       templateUrl: "templates/room-modal",
       controller: 'RoomCreator'
-    });
+    });*/
 
  
 
