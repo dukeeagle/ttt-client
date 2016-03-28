@@ -17,15 +17,15 @@
               {{username.username}}
             </div>
           </div>
-            <ion-scroll direction="y">
+            <!--<ion-scroll direction="y">-->
             <div id="message-list">
-               <p ng-repeat="message in messages">
+               <p ng-repeat="message in messages | limitTo: -5">
                   <strong>{{message.username}}</strong> {{message.message}}
                </p> 
             </div>
-          </ion-scroll>
+          <!--</ion-scroll>-->
   </ion-content>
-  <ion-footer-bar id="footer-bar-room" class="bar bar-footer" align-title="left" padding="true" class="bar-strong">
+  <ion-footer-bar id="footer-bar-room" class="bar bar-footer bar-clear" align-title="left" padding="true" class="bar-strong">
     <textarea id="messageToSend" ng-model="messageToSend"></textarea>
     <button id="send-button" class="button button-light" ng-click="sendMessage()">SEDEDED</button>
     <button id="start-game" class="button button-block button-royal" ng-click="startGame()">Start Game</button>

@@ -1,18 +1,29 @@
-<ion-header-bar class="bar-royal">
-    <h1 id="rooms-title" class="title"><strong>TTT</strong></h1>
-  </ion-header-bar>
-  <ion-content id="main-content">
-    <ion-scroll direction="y">
-    <ion-list id="message-list">
-        <ion-item class="room-item" ng-repeat="room in rooms" href="#/rooms/{{room.id}}">
+<ion-nav-bar class="bar-royal">
+  <ion-nav-buttons side="left">
+      <button id="minus-button" class="button button-icon icon ion-ios-minus-outline" ng-click="data.showDelete=!data.showDelete"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button id="info" class="button ion-ios-information-outline button-clear" menu-toggle="up" ng-click="openModal(2)">
+      </button>
+    </ion-nav-buttons>
+    <ion-nav-title align-title="center" id="nav-title"><strong>TTT</strong></ion-nav-title>
+</ion-nav-bar>
+
+  <ion-content id="main-content" class="has-header">
+    <!--<ion-scroll direction="y" has-bouncing="true">-->
+    <ion-list id="message-list" show-delete="data.showDelete">
+        <ion-item class="room-item item-icon-right" item="room" ng-repeat="room in rooms" href="#/rooms/{{room.id}}">
+        <ion-delete-button class="ion-minus-circled" ng-click="onRoomDelete(room)">
+      </ion-delete-button>
           <strong>{{room.name}}</strong> 
-          <span class="message-date"> - {{room.timestamp | date: short}}</span> 
+          <!--<span class="message-date"> - {{room.timestamp | date: short}}</span>-->
+          <i id="people" class="icon ion-android-people">{{room.players.length}}</i>
         </ion-item>
     </ionic-list>
-  </ion-scroll>
+  <!--</ion-scroll>-->
   </ion-content>
   <ion-footer-bar id="footer-bar-list" class="bar-royal" >
-    <button id="modal-button" class = "button button-block" ng-click="openModal()">Create a Room</button>
+    <button id="modal-button" class = "button button-block" ng-click="openModal(1)">Create a Room</button>
     <!--<div class="send-button" id="send-room" ng-click="openModal()">Create a Room</div>-->
 </ion-footer-bar>
 

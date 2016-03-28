@@ -1,5 +1,9 @@
 angular.module('starter')
 //TTT Heroku Server: https://fathomless-brushlands-33586.herokuapp.com/
+.config(function($ionicConfigProvider){
+    $ionicConfigProvider.navBar.alignTitle('center');
+})
+
 .controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket){
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
@@ -11,6 +15,24 @@ angular.module('starter')
       });
     }
 
+  $scope.data = {
+      showDelete: false
+  };
+
+  $scope.onRoomDelete = function(room){
+      //$scope.rooms.splice($scope.rooms.indexOf(room), 1);
+      var rooms = $scope.rooms;
+      $http.put("https://fathomless-brushlands-33586.herokuapp.com/rooms", room).then(function(response){
+        $scope.rooms = response.data;
+      });
+      /*/var deleteRoom = {
+          id: 
+          username:
+      }
+      $http.put("https://fathomless-brushlands-33586.herokuapp.com/rooms", room).then(function(response){
+        $scope.rooms = response.data;
+      });*/
+  }
 
   var objDiv = document.getElementById("message-list");
   $scope.createRoom = createRoom;
@@ -22,11 +44,14 @@ angular.module('starter')
     setTimeout(getRooms, 1500);
   }
 
+  
+
   function createRoom() {
+      //$scope.modal1= {}
       var room = {
         timestamp: new Date(),
         //name: $scope.roomNameToCreate,
-        name: UserService.user.username + "'s Room",
+        name: $scope.modal1.roomNameToCreate,
         username: UserService.user.username,
         messages: [],
         players: []
@@ -39,19 +64,35 @@ angular.module('starter')
     document.getElementById("roomNameToCreate").value = "";
   }
 
-  $ionicModal.fromTemplateUrl('templates/room-modal.html', {
+  $ionicModal.fromTemplateUrl('templates/info-modal.html', {
+      id: '2',
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
-        $scope.modal = modal;
+        $scope.modal2 = modal;
     });
 
-    $scope.openModal = function() {
-        $scope.modal.show();
+    $scope.$on('$destroy', function(){
+        $scope.modal.remove();
+    });
+
+
+  $ionicModal.fromTemplateUrl('templates/room-modal.html', {
+      id: '1',
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal1 = modal;
+    });
+
+    $scope.openModal = function(index) {
+        if(index == 1) $scope.modal1.show();
+        else $scope.modal2.show();
     };
 
-    $scope.closeModal = function() {
-        $scope.modal.hide();
+    $scope.closeModal = function(index) {
+        if(index == 1) $scope.modal1.hide();
+        else $scope.modal2.hide();
     };
 
     $scope.$on('$destroy', function(){
@@ -69,8 +110,9 @@ angular.module('starter')
     });
 
     $scope.submitRoom = function() {
-        $scope.closeModal();
         $scope.createRoom();
+        $scope.closeModal(1);
+        
     }
 
 })
@@ -208,7 +250,7 @@ angular.module('starter')
         var room = {
           timestamp: new Date(),
           //name: $scope.roomNameToCreate,
-          name: UserService.user.username + "'s Room" + $scope.roomNameToCreate,
+          name: UserService.user.username + "'s Room" + $scope.modal1.roomNameToCreate,
           username: UserService.user.username
     };
   };

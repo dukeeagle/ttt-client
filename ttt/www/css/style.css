@@ -38,7 +38,7 @@ html{
 
 #messageToSend{
 	width:80%;
-	margin-top:40px;
+	margin-top:10px;
 
 }
 
@@ -97,4 +97,21 @@ html{
 
 #rooms-title{
 	text-align:center;
+}
+
+#people{
+	font-size:15px;
+	margin:1px;
+}
+
+#minus-button,
+#minus-button:before{
+	font-size:19px !important;
+	padding-right:129.5px;
+	side:right;
+}
+
+#info,
+#info:before{
+	font-size:20px !important;
 }
