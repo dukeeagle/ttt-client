@@ -4,12 +4,30 @@ angular.module('starter')
     $ionicConfigProvider.navBar.alignTitle('center');
 })
 
-.controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket){
+
+
+
+
+.controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket, $localStorage, $state){
+    /*var state = "room-list";
+
+     if (Application.isInitialRun()) {
+           Application.setInitialRun(false);
+           state = "first-time";
+     }
+
+    $state.go(state);*/
+
+    if($localStorage.get('name') == undefined){
+        $state.go('first-time');
+    }
+
+
     if(!UserService.user.username){ 
       UserService.user.username = prompt("Please enter your username", "");
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
-        UserService.user = response.data;
-        var username = UserService.user.username;
+        //UserService.user = response.data;
+        var username = $localStorage.get('name');
         socket.emit('addUser', username);
         getRooms();
       });
@@ -18,6 +36,11 @@ angular.module('starter')
   $scope.data = {
       showDelete: false
   };
+
+  $scope.returnHome = function(){
+    $state.go('home');
+    getRooms();
+  }
 
   $scope.onRoomDelete = function(room){
       //$scope.rooms.splice($scope.rooms.indexOf(room), 1);
@@ -48,14 +71,18 @@ angular.module('starter')
 
   function createRoom() {
       //$scope.modal1= {}
+      var creatorName = $localStorage.get('name');
       var room = {
         timestamp: new Date(),
         //name: $scope.roomNameToCreate,
         name: $scope.modal1.roomNameToCreate,
-        username: UserService.user.username,
+        username: creatorName,
         messages: [],
         players: []
       };
+      if(room.name == undefined){
+        room.name = $localStorage.get('name') + "\'s Room";
+      }
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms", room).then(function(response) {
         $scope.rooms = response.data;
         socket.emit('newRoom', room.name);
@@ -113,27 +140,36 @@ angular.module('starter')
         $scope.createRoom();
         $scope.closeModal(1);
         
-    }
+    };
 
+    $scope.changeName = function(){
+        var newName = $scope.modal2.userNameToChange;
+        $localStorage.set('name',  newName);
+        console.log($localStorage.get('name'));
+        document.getElementById("userNameToChange").value = "";
+    };
 })
 
-.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket, $ionicPopup){
+
+
+
+
+.controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket, $ionicPopup, $localStorage){
     if(!UserService.user.username){ 
-      UserService.user.username = prompt("Please enter your username", "");
+      //UserService.user.username = prompt("Please enter your username", "");
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
         UserService.user = response.data;
-        var username = UserService.user.username;
+        var username = $localStorage.get('name');
         socket.emit('addUser', username);
       });
     }
-
   getRoom();
   $scope.sendMessage = sendMessage;
   $scope.$on('$ionicView.afterEnter', function() {
       var testMessage = {
             timestamp: new Date(),
             message: "has joined the game!",
-            username: UserService.user.username
+            username: $localStorage.get('name')
       };
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", testMessage).then(function(response) {
           $scope.messages = response.data.messages;
@@ -143,14 +179,14 @@ angular.module('starter')
       $scope.messageToSend = "";
 
       var enterPlayer = {
-          username: UserService.user.username
+          username: $localStorage.get('name')
       };
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", enterPlayer).then(function(response) {
           $scope.players = response.data.players;
           console.log($scope.players);
       });
       thisRoom = $scope.room;
-      socket.emit('enterRoom', thisRoom, UserService.user.username);
+      socket.emit('enterRoom', thisRoom, $localStorage.get('name'));
   });
   $scope.myGoBack = function() {
       $ionicHistory.goBack();
@@ -158,11 +194,11 @@ angular.module('starter')
   socket.on('new player', function(newPlayer){
       $scope.room.players.push(newPlayer);
   });
-  $scope.$on('$ionicView.afterLeave', function() {
+  $scope.$on('$ionicView.afterLeave' || '$ionicView.unloaded', function() {
       var finalMessage = {
           timestamp: new Date(),
           message: "has left the game",
-          username: UserService.user.username
+          username: $localStorage.get('name')
       };
       $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", finalMessage).then(function(response) {
           $scope.messages = response.data.messages;
@@ -174,7 +210,7 @@ angular.module('starter')
       $scope.messageToSend = "";
 
       var leavePlayer = {
-          username: UserService.user.username
+          username: $localStorage.get('name')
       };
       $http.put("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/players", leavePlayer).then(function(response) {
           $scope.players = response.data.players;
@@ -204,7 +240,7 @@ angular.module('starter')
       var alertPopup = $ionicPopup.alert({
           title: 'You are the TRAITOR!',
           template: 'Assassinate everyone in sight!',
-          okType: 'button-royal'
+          okType: 'button-assertive'
       });
 
       alertPopup.then(function(res){
@@ -216,7 +252,7 @@ angular.module('starter')
       var alertPopup = $ionicPopup.alert({
           title: 'You are INNOCENT.',
           template: 'Eliminate the traitor before it\'s too late!',
-          okType: 'button-royal'
+          okType: 'button-assertive'
       });
   };
 
@@ -232,7 +268,7 @@ angular.module('starter')
         var message = {
           timestamp: new Date(),
           message: $scope.messageToSend,
-          username: UserService.user.username
+          username: $localStorage.get('name')
         };
         
         $http.post("https://fathomless-brushlands-33586.herokuapp.com/rooms/" + $stateParams.id + "/messages", message).then(function(response) {
@@ -244,14 +280,18 @@ angular.module('starter')
     }
 })
 
- .controller('RoomCreator', function($scope, $http, $stateParams, UserService, $ionicModal){
+
+
+
+
+ .controller('RoomCreator', function($scope, $http, $stateParams, UserService, $ionicModal, $localStorage){
     $scope.createRoom = createRoom;
       function createRoom(){
         var room = {
           timestamp: new Date(),
           //name: $scope.roomNameToCreate,
           name: UserService.user.username + "'s Room" + $scope.modal1.roomNameToCreate,
-          username: UserService.user.username
+          username: $localStorage.get('name')
     };
   };
 });

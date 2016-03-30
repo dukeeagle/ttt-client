@@ -89,6 +89,8 @@ html{
 	height:4.5%;
 	padding: 5px;
 	text-align: center;
+	color:white;
+	background-color:#E53935;
 }
 
 #nav-title{
@@ -114,4 +116,15 @@ html{
 #info,
 #info:before{
 	font-size:20px !important;
+}
+
+#info-submit{
+	margin-bottom:40%;
+	width:99.8%;
+}
+
+#play-button{
+	width:60%;
+	margin-top:40px;
+	margin-left: 18%;
 }

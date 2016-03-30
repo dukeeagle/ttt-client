@@ -1,8 +1,19 @@
 <ion-modal-view>
+	<ion-header-bar>
+		<h1 class="title">TTT</h1>
+	</ion-header-bar>
 	<ion-content class="padding">
-		<h1>TTT</h1>
-		<h2>Created by Luke Igel</h2>
-		<p>Find out more here: </p>
+		
+		<div class="list">
+			<label class="item item-input">
+					<span class="input-label">Change Username</span>
+					<input id="userNameToChange" ng-model="modal2.userNameToChange" type="text">
+			</label>
+			<button class="button button-full button-assertive" ng-click="changeName()">Change</button>
+		</div>
+
+		<h5>Created by Luke Igel</h5>
+		<p>Find out more here</p>
 		
 	</ion-content>
 	<ion-footer-bar class="bar-clear">

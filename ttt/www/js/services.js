@@ -33,4 +33,33 @@ angular.module('starter')
     }
     //socketFactory({ioSocket: io('https://fathomless-brushlands-33586.herokuapp.com/')});
   };
+}])
+
+.factory('$localStorage', ['$window', function($window) {
+  return {
+    set: function(key, value) {
+      $window.localStorage[key] = value;
+    },
+    get: function(key, defaultValue) {
+      return $window.localStorage[key] || defaultValue;
+    },
+    setObject: function(key, value) {
+      $window.localStorage[key] = JSON.stringify(value);
+    },
+    getObject: function(key) {
+      return JSON.parse($window.localStorage[key] || '{}');
+    }
+  }
 }]);
+
+/*.factory('application', function ($window) {
+    return {
+      setInitialRun = function (initial) {
+          $window.localStorage["initialRun"] = (initial ? "true" : "false");
+      },
+      isInitialRun = function () {
+         var value = $window.localStorage["initialRun"] || "true";
+         return value == "true";
+      }
+    };
+});*/

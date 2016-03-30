@@ -25,13 +25,19 @@ angular.module('starter', ['ionic', 'btford.socket-io'])
 
 .config(function($stateProvider, $urlRouterProvider){
   
-  $urlRouterProvider.otherwise("/");
+  //$urlRouterProvider.otherwise("/");
   $stateProvider
 
     .state('home', {
       url: '/',
       templateUrl: "templates/room-list.html",
       controller:"RoomsController"
+    })
+
+    .state('first-time', {
+      url: '/first-time',
+      templateUrl: 'templates/first-time.html',
+      controller: "RoomsController"
     })
 
     .state('room',{

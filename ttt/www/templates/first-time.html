@@ -1,14 +1,40 @@
-<ion-nav-bar class="bar royal">
-	<ion-nav-buttons
-	<ion-nav-title align-title="center" id="nav-title"><strong>TTT</strong></ion-nav-title>
+<ion-nav-bar class="bar-assertive">
+	
+	<ion-nav-title id="nav-title" align-title="center" class="title"><strong>TTT</strong></ion-nav-title>
 </ion-nav-bar>
-<ion-content>
-	<ion-slide-box on-slide-changed="slideHasChanged($index)">
-		<ion-slide>
-			<div class="box purple"><h1>Welcome to TTT!</h1><p>TTT is a companion app for playing a real-life game of Trouble in Terrorist Town with your friends. Simply join a friend's room, wait for everyone else to join, and press play!</p></div>
+<ion-content class="has-header padding">
+	<ion-slide-box on-slide-changed="slideHasChanged($index)" scroll="false">
+		<ion-slide scroll="false">
+			<div class="box purple"><h1>Welcome to TTT!</h1><p>TTT is a companion app for playing a real-life game of Trouble in Terrorist Town with your friends. Simply join a friend's room, wait for everyone else to join, and press play!</p>
+				<h3><strong>NOTE:</strong></h3>
+				<p>TTT requires location services to be enabled in order to show nearby rooms. Please enable it in your settings if you haven't already done so.</p>
+					<p>Please enter a username:</p>
+					<div class="list">
+					<label class="item item-input">
+						<span class="input-label">Enter Username</span>
+						<input id="userNameToChange" ng-model="modal2.userNameToChange" type="text">
+					</label>
+					<button class="button button-assertive" id="info-submit" ng-click="changeName()">Submit</button>
+					</div>
+				
+			</div>
 		</ion-slide>
 		<ion-slide>
-			<div class="box purple"><h1>How to Play</h1></div>
+			
+			<div class="box purple" text-align="center"><h1>How to Play</h1>
+			<p>Before the traitor is determined, players are to disperse among the game area. Once all other players are out of sight, determine the round's traitor. The round ends when the Traitor or all of the Innocents are eliminated.</p>
+			<h3><strong>as Traitor:</strong></h3>
+			<p>Your role is to assassinate all of the other players. It is best to keep your role a secret until the best time to strike has arrived.</p>
+			<h3><strong>as Innocent:</strong></h3>
+			<p>You must determine and eliminate the traitor. Be careful! It could be anyone!</p>
+			</div>
+
+		</ion-slide>
+		<ion-slide>
+			<div class="box purple" text-align="center"><h1>Note</h1>
+				<p>Most of this game requires real-life interaction. This app simply assigns the roles of the players at the beginning. The specific rules for the game are for you to decide.</p>
+				<button class="button button-assertive" ng-click="returnHome()" id="play-button">Play</button>
+			</div>
 		</ion-slide>
 	</ion-slide-box>
 </ion-content>
