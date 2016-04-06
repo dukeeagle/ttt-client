@@ -17,19 +17,40 @@ angular.module('starter')
      }
 
     $state.go(state);*/
+    
+    //TEST
+    socket.on('disconnect', function(socket){
+        console.log(socket + 'disconnected!');
+    })
+    socket.on('joined', function(){
+        console.log('a user has joined!');
+    })
+    socket.on('joinedRoom', function(){
+        console.log('a user has joined this room!');
+    })
+    socket.on('playersInRoom', function(roomSockets){
+        console.log(roomSockets);
+    })
 
     if($localStorage.get('name') == undefined){
         $state.go('first-time');
     }
 
 
-    if(!UserService.user.username){ 
-      UserService.user.username = prompt("Please enter your username", "");
-      $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
-        //UserService.user = response.data;
-        var username = $localStorage.get('name');
-        socket.emit('addUser', username);
-        getRooms();
+    if(!UserService.user.username){
+      navigator.geolocation.getCurrentPosition(function(position){ 
+        //UserService.user.username = prompt("Please enter your username", "");
+        var user ={
+          username:$localStorage.get('name'),
+          lat:position.coords.latitude,
+          lon:position.coords.longitude
+        }
+        $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", user).then(function(response){ 
+          //UserService.user = response.data;
+          var username = $localStorage.get('name');
+          socket.emit('addUser', username);
+          getRooms();
+        });
       });
     }
 
@@ -61,22 +82,28 @@ angular.module('starter')
   $scope.createRoom = createRoom;
 
   function getRooms() {
-    $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms").then(function(response){ 
-      $scope.rooms = response.data;
+    navigator.geolocation.getCurrentPosition(function(position){
+      $http.get("https://fathomless-brushlands-33586.herokuapp.com/rooms").then(function(response){ 
+        $scope.rooms = response.data;
+        
+      });
+      /*for(i = rooms.data.length - 1; i >= 0; i--){
+        var close = haversine(position.coords.latitude, position.coords.longitude, $scope.rooms[i].lat, $scope.rooms[i].long);
+        $scope.rooms[i].isClose = close;
+      }*/
     });
     setTimeout(getRooms, 1500);
   }
 
-  
-
   function createRoom() {
-      //$scope.modal1= {}
+      navigator.geolocation.getCurrentPosition(function(position){
       var creatorName = $localStorage.get('name');
       var room = {
         timestamp: new Date(),
-        //name: $scope.roomNameToCreate,
         name: $scope.modal1.roomNameToCreate,
         username: creatorName,
+        lat:position.coords.latitude,
+        lon:position.coords.longitude,
         messages: [],
         players: []
       };
@@ -87,7 +114,7 @@ angular.module('starter')
         $scope.rooms = response.data;
         socket.emit('newRoom', room.name);
       });
-    
+    });
     document.getElementById("roomNameToCreate").value = "";
   }
 
@@ -100,7 +127,7 @@ angular.module('starter')
     });
 
     $scope.$on('$destroy', function(){
-        $scope.modal.remove();
+        $scope.modal2.remove();
     });
 
 
@@ -123,7 +150,7 @@ angular.module('starter')
     };
 
     $scope.$on('$destroy', function(){
-        $scope.modal.remove();
+        $scope.modal1.remove();
     });
 
     //Execute action on hide modal
@@ -155,14 +182,16 @@ angular.module('starter')
 
 
 .controller('SingleRoomController', function($scope, $http, $stateParams, UserService, $ionicHistory, socket, $ionicPopup, $localStorage){
-    if(!UserService.user.username){ 
-      //UserService.user.username = prompt("Please enter your username", "");
-      $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", UserService.user).then(function(response){ 
-        UserService.user = response.data;
-        var username = $localStorage.get('name');
-        socket.emit('addUser', username);
-      });
-    }
+    /*if(!UserService.user.username){ 
+        var user ={
+          username:$localStorage.get('name')
+        }
+        $http.post("https://fathomless-brushlands-33586.herokuapp.com/users", user).then(function(response){ 
+          var username = $localStorage.get('name');
+          socket.emit('addUser', username);
+          getRooms();
+        });
+    }*/
   getRoom();
   $scope.sendMessage = sendMessage;
   $scope.$on('$ionicView.afterEnter', function() {

@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'btford.socket-io'])
 
 .config(function($stateProvider, $urlRouterProvider){
   
-  //$urlRouterProvider.otherwise("/");
+  $urlRouterProvider.otherwise("/");
   $stateProvider
 
     .state('home', {
