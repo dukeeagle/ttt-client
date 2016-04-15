@@ -8,7 +8,7 @@ angular.module('starter')
 
 
 
-.controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket, $localStorage, $state){
+.controller('RoomsController', function($scope, $http, UserService, $ionicModal, socket, $localStorage, $state, $ionicSlideBoxDelegate){
     /*var state = "room-list";
 
      if (Application.isInitialRun()) {
@@ -34,6 +34,11 @@ angular.module('starter')
 
     if($localStorage.get('name') == undefined){
         $state.go('first-time');
+    }
+
+
+    $scope.nextSlide = function(){
+      $ionicSlideBoxDelegate.next();
     }
 
 
@@ -250,6 +255,8 @@ angular.module('starter')
       socket.emit('leaveRoom', leftRoom);
 
    });
+  
+  //The event listeners are duplicating every time this view is reloaded. This needs to be fixed.
   socket.on('traitor', function(){
       $scope.showTraitor();
       console.log('The traitor has been determined!');

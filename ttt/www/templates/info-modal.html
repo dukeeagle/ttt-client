@@ -5,15 +5,17 @@
 	<ion-content class="padding">
 		
 		<div class="list">
+			<h4>Change Username</h4>
+			<form name="infoForm">
 			<label class="item item-input">
-					<span class="input-label">Change Username</span>
-					<input id="userNameToChange" ng-model="modal2.userNameToChange" type="text">
+					<!--<span class="input-label">Change Username</span>-->
+					<input id="userNameToChange" placeholder="Username" ng-model="modal2.userNameToChange" type="text" required>
 			</label>
-			<button class="button button-full button-assertive" ng-click="changeName()">Change</button>
+			<button class="button button-full button-assertive" ng-click="changeName(); closeModal(2)" ng-disabled="infoForm.$invalid">Change</button>
+		</form>
 		</div>
-
-		<h5>Created by Luke Igel</h5>
-		<p>Find out more here</p>
+		<h5 id="credit">Created by Luke Igel</h5>
+		
 		
 	</ion-content>
 	<ion-footer-bar class="bar-clear">

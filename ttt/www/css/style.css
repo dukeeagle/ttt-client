@@ -119,12 +119,21 @@ html{
 }
 
 #info-submit{
-	margin-bottom:40%;
-	width:99.8%;
+	height:10%;
+	
 }
 
 #play-button{
 	width:60%;
 	margin-top:40px;
 	margin-left: 18%;
+}
+
+#right-button{
+	margin-top:53%;
+	margin-left:90%;
+}
+
+#credit{
+	margin-top:80%;
 }
